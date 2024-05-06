@@ -4,39 +4,101 @@ import { useState, useEffect } from 'react'
 const PropertyAddForm = () => {
   const [mounted, setMounted] = useState(false)
   const [fields, setFields] = useState({
-    type: 'Apartment',
-    name: 'Test Property',
+    type: '',
+    name: '',
     description: '',
     location: {
       street: '',
-      city: 'Test City',
-      state: 'Test State',
+      city: '',
+      state: '',
       zipcode: '',
     },
-    beds: '3',
-    baths: '2',
-    square_feet: '1800',
+    beds: '',
+    baths: '',
+    square_feet: '',
     amenities: [],
     rates: {
       weekly: '',
-      monthly: '2000',
+      monthly: '',
       nightly: '',
     },
     seller_info: {
       name: '',
-      email: 'test@test.com',
+      email: '',
       phone: '',
     },
     images: [],
   })
 
-  const handleChange = () => {}
-  const handleAmenitiesChange = () => {}
-  const handleImageChange = () => {}
-
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+
+    // Check if nested property
+    if (name.includes('.')) {
+      const [outerKey, innerKey] = name.split('.')
+
+      setFields((prevFields) => ({
+        ...prevFields,
+        [outerKey]: {
+          ...prevFields[outerKey],
+          [innerKey]: value,
+        },
+      }))
+    } else {
+      // Not nested
+      setFields((prevFields) => ({
+        ...prevFields,
+        [name]: value,
+      }))
+    }
+  }
+  const handleAmenitiesChange = (e) => {
+    const { value, checked } = e.target
+
+    // Clone the current array
+    const updatedAmenites = [...fields.amenities]
+
+    if (checked) {
+      // Add value to array
+      updatedAmenites.push(value)
+    } else {
+      // Remove value from array
+      const index = updatedAmenites.indexOf(value)
+
+      if (index !== -1) {
+        updatedAmenites.splice(index, 1)
+      }
+    }
+
+    // Update state with updated array
+    setFields((prevFields) => ({
+      ...prevFields,
+      amenities: updatedAmenites,
+    }))
+  }
+
+  const handleImageChange = (e) => {
+    const { files } = e.target
+
+    // Clone images array
+    const updatedImages = [...fields.images]
+
+    // Add new files to the array
+    for (const file of files) {
+      updatedImages.push(file)
+    }
+
+    // Update state with array of images
+    setFields((prevFields) => ({
+      ...prevFields,
+      images: updatedImages,
+    }))
+  }
+
   return (
     mounted && (
       <form
@@ -49,15 +111,12 @@ const PropertyAddForm = () => {
         </h2>
 
         <div className='mb-4'>
-          <label
-            htmlFor='property_type'
-            className='block text-gray-700 font-bold mb-2'
-          >
+          <label htmlFor='type' className='block text-gray-700 font-bold mb-2'>
             Property Type
           </label>
           <select
-            id='property_type'
-            name='property_type'
+            id='type'
+            name='type'
             className='border rounded w-full py-2 px-3'
             required
             value={fields.type}
@@ -450,7 +509,7 @@ const PropertyAddForm = () => {
           <input
             type='text'
             id='seller_name'
-            name='seller_info.name.'
+            name='seller_info.name'
             className='border rounded w-full py-2 px-3'
             placeholder='Name'
             value={fields.seller_info.name}
@@ -508,6 +567,7 @@ const PropertyAddForm = () => {
             accept='image/*'
             multiple
             onChange={handleImageChange}
+            required
           />
         </div>
 
@@ -523,5 +583,4 @@ const PropertyAddForm = () => {
     )
   )
 }
-
 export default PropertyAddForm
