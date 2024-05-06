@@ -1,14 +1,21 @@
-import React from 'react'
-import Link from 'next/link'
+import properties from '@/properties.json'
+import PropertyCard from '@/components/PropertyCard'
 
 const PropertiesPage = () => {
   return (
-    <div>
-      <div>
-        <h1 className='text-3xl'>Properties</h1>
-        <Link href='/'>Go Home</Link>
+    <section className='px-4 py-6'>
+      <div className='container-xl lg:container m-auto px-4 py-6'>
+        {properties.length === 0 ? (
+          <p>No properties found</p>
+        ) : (
+          <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
+            {properties.map((property, index) => (
+              <PropertyCard property={property} key={index} />
+            ))}
+          </div>
+        )}
       </div>
-    </div>
+    </section>
   )
 }
 
