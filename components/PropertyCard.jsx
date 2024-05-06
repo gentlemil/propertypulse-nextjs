@@ -19,7 +19,7 @@ const PropertyCard = ({ property }) => {
     } else if (rates.nightly) {
       return `${rates.nightly.toLocaleString()}/night`
     }
-  }
+  } 
   return (
     <div className='rounded-xl shadow-md relative'>
       <Image
