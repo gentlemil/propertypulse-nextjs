@@ -19,11 +19,11 @@ const PropertyCard = ({ property }) => {
     } else if (rates.nightly) {
       return `${rates.nightly.toLocaleString()}/night`
     }
-  } 
+  }
   return (
     <div className='rounded-xl shadow-md relative'>
       <Image
-        src={`/images/properties/${property.images[0]}`}
+        src={property.images[0]}
         alt=''
         height={0}
         width={0}
@@ -94,4 +94,3 @@ const PropertyCard = ({ property }) => {
   )
 }
 export default PropertyCard
- 
