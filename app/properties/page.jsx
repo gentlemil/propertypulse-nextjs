@@ -1,19 +1,6 @@
 // server component!
 import PropertyCard from '@/components/PropertyCard'
-
-async function fetchProperties() {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/properties`) // this is on the server, need to add full url
-
-    if (!res.ok) {
-      throw new Error('Failed to fetch data from server')
-    }
-
-    return res.json()
-  } catch (error) {
-    console.error(error)
-  }
-}
+import { fetchProperties } from '@/utils/requests'
 
 const PropertiesPage = async () => {
   const properties = await fetchProperties()
