@@ -11,7 +11,6 @@ export const POST = async (request) => {
     const { propertyId } = await request.json()
 
     const sessionUser = await getSessionUser()
-    console.log(sessionUser)
 
     if (!sessionUser || !sessionUser.userId) {
       return new Response('User ID is required', { status: 401 })

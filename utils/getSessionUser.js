@@ -4,7 +4,6 @@ import { authOptions } from '@/utils/authOptions'
 export const getSessionUser = async () => {
   try {
     const session = await getServerSession(authOptions)
-    console.log('session: ', session)
 
     if (!session || !session.user) {
       return null
