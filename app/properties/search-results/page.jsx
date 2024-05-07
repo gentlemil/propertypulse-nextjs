@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-
 import { FaArrowAltCircleLeft } from 'react-icons/fa'
 import PropertyCard from '@/components/PropertyCard'
 import PropertySearchForm from '@/components/PropertySearchForm'
