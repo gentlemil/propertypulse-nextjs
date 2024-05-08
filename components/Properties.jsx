@@ -2,35 +2,47 @@
 import { useState, useEffect } from 'react'
 import PropertyCard from '@/components/PropertyCard'
 import Spinner from '@/components/Spinner'
+import Pagination from './Pagination'
 // import { fetchProperties } from '@/utils/requests'
 
 const Properties = () => {
   //   const properties = await fetchProperties()
   const [properties, setProperties] = useState([])
   const [loading, setLoading] = useState(true)
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(6)
+  const [totalItems, setTotalItems] = useState(0)
 
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const res = await fetch(`/api/properties`)
+        const res = await fetch(
+          `/api/properties?page=${page}&pageSize=${pageSize}`
+        )
 
         if (!res.ok) {
           throw new Error('Failed to fetch data')
         }
 
         const data = await res.json()
-        setProperties(data)
-        setLoading(false)
+        setProperties(data.properties)
+        setTotalItems(data.total)
       } catch (error) {
         console.error(error)
+      } finally {
+        setLoading(false)
       }
     }
 
     fetchProperties()
-  }, [])
+  }, [page, pageSize])
 
   // sort properties by date
   properties.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage)
+  }
 
   return loading ? (
     <Spinner loading={loading} />
@@ -46,6 +58,12 @@ const Properties = () => {
             ))}
           </div>
         )}
+        <Pagination
+          page={page}
+          pageSize={pageSize}
+          totalItems={totalItems}
+          onPageChange={handlePageChange}
+        />
       </div>
     </section>
   )
