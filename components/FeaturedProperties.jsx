@@ -1,31 +1,28 @@
-import { fetchProperties } from '@/utils/requests'
-import FeaturedPropertyCard from '@/components/FeaturedPropertyCard'
+import connectDB from '@/config/database'
+import Property from '@/models/Property'
 
 const FeaturedProperties = async () => {
-  const properties = await fetchProperties({ showFeatured: true })
-  let randomProperties = []
-  if (properties && properties.length > 0) {
-    randomProperties = properties
-      .sort(() => Math.random() - Math.random())
-      .slice(0, 2)
-  }
+  await connectDB()
 
-  return (
-    properties.length > 0 && (
-      <section className='bg-blue-50 px-4 pt-6 pb-10'>
-        <div className='container-xl lg:container m-auto'>
-          <h2 className='text-3xl font-bold text-blue-500 mb-6 text-center'>
-            Featured Properties
-          </h2>
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-            {randomProperties.map((property, index) => (
-              <FeaturedPropertyCard property={property} key={index} />
-            ))}
-          </div>
+  const properties = await Property.find({
+    is_featured: true,
+  }).lean()
+  // lean() method is used to return plain JavaScript objects instead of Mongoose documents.
+  // easier to work with, improves performance.
+
+  return properties.length > 0 ? (
+    <section className='bg-blue-50 px-4 pt-6 pb-10'>
+      <div className='container-xl lg:container m-auto'>
+        <h2 className='text-3xl font-bold text-blue-500 mb-6 text-center'>
+          Featured Properties
+        </h2>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+          {properties.map((property) => (
+            <FeaturedPropertyCard key={property._id} property={property} />
+          ))}
         </div>
-      </section>
-    )
-  )
+      </div>
+    </section>
+  ) : null
 }
-
 export default FeaturedProperties
