@@ -1,7 +1,8 @@
 import connectDB from '@/config/database'
 import Property from '@/models/Property'
 
-// GET /api/search
+export const dynamic = 'force-dynamic'
+// GET /api/properties/search
 export const GET = async (request) => {
   try {
     await connectDB()
@@ -11,7 +12,8 @@ export const GET = async (request) => {
     const propertyType = searchParams.get('propertyType')
 
     const locationPattern = new RegExp(location, 'i')
-    // match location pattern against db fields
+
+    // match location pattern against database fields
     let query = {
       $or: [
         { name: locationPattern },
@@ -36,8 +38,6 @@ export const GET = async (request) => {
     })
   } catch (error) {
     console.log(error)
-    return new Response(JSON.stringify({ message: error.message }), {
-      status: 500,
-    })
+    return new Response('Something went wrong', { status: 500 })
   }
 }

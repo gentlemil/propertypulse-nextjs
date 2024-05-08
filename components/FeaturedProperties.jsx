@@ -3,9 +3,12 @@ import FeaturedPropertyCard from '@/components/FeaturedPropertyCard'
 
 const FeaturedProperties = async () => {
   const properties = await fetchProperties({ showFeatured: true })
-  const randomProperties = properties
-    .sort(() => Math.random() - Math.random())
-    .slice(0, 2)
+  let randomProperties = []
+  if (properties && properties.length > 0) {
+    randomProperties = properties
+      .sort(() => Math.random() - Math.random())
+      .slice(0, 2)
+  }
 
   return (
     properties.length > 0 && (

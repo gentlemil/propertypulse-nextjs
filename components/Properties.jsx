@@ -38,7 +38,9 @@ const Properties = () => {
   }, [page, pageSize])
 
   // sort properties by date
-  properties.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+  if (properties) {
+    properties.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+  }
 
   const handlePageChange = (newPage) => {
     setPage(newPage)

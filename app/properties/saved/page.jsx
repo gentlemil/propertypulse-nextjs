@@ -11,17 +11,17 @@ const SavedPropertiesPage = () => {
   useEffect(() => {
     const fetchSavedProperties = async () => {
       try {
-        const res = await fetch(`/api/bookmarks`, {
-          method: 'GET',
-        })
+        const res = await fetch(`/api/bookmarks`)
 
         if (res.status === 200) {
           const data = await res.json()
           setProperties(data)
           // sort the properties by create date
-          properties.sort(
-            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-          )
+          if (properties) {
+            properties.sort(
+              (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+            )
+          }
         } else {
           console.error(`Failed to fetch saved properties: ${res.statusText}`)
           toast.error('Failed to fetch saved properties')
