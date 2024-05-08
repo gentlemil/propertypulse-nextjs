@@ -26,7 +26,7 @@
     2. receiving,
     3. marking as read,
     4. delete,
-√ Storing properties' images in cloudinary service,
+√ Storing properties images in cloudinary service,
 √ Sharing properties (facebook/twitter/whatsapp/email),
 √ Display properties location (via mapbox)
 √ Bookmarking properties,
@@ -93,10 +93,4 @@ Now that we have created our project, we can run it. To do this, run the followi
 $ npm run dev
 ```
 
-## Running the Project
-
-```bash
-npm run dev
-```
-
-Enjoy!
+Feel free to contact with me and ask any question about the project. Enjoy!
