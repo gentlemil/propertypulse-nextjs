@@ -1,4 +1,4 @@
-// TO_REMOVE (not used in this project anymore)
+// TO_REMOVE (not used anymore in the project, but keeping it for reference)
 
 // const apiDomain = process.env.NEXT_PUBLIC_API_DOMAIN || null
 
