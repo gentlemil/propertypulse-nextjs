@@ -1,6 +1,7 @@
-const apiDomain = process.env.NEXT_PUBLIC_API_DOMAIN || null
-
 // TO_REMOVE (not used in this project anymore)
+
+// const apiDomain = process.env.NEXT_PUBLIC_API_DOMAIN || null
+
 // fetch all properties
 // async function fetchProperties({ showFeatured = false } = {}) {
 //   try {
@@ -25,22 +26,22 @@ const apiDomain = process.env.NEXT_PUBLIC_API_DOMAIN || null
 // }
 
 // fetch single property
-async function fetchProperty(id) {
-  try {
-    if (!apiDomain) {
-      return null
-    }
-    const res = await fetch(`${apiDomain}/properties/${id}`)
+// async function fetchProperty(id) {
+//   try {
+//     if (!apiDomain) {
+//       return null
+//     }
+//     const res = await fetch(`${apiDomain}/properties/${id}`)
 
-    if (!res.ok) {
-      throw new Error('Failed to fetch data')
-    }
+//     if (!res.ok) {
+//       throw new Error('Failed to fetch data')
+//     }
 
-    return await res.json()
-  } catch (error) {
-    console.log(error)
-    return null
-  }
-}
+//     return await res.json()
+//   } catch (error) {
+//     console.log(error)
+//     return null
+//   }
+// }
 
-export { fetchProperties, fetchProperty }
+// export { fetchProperties, fetchProperty }
