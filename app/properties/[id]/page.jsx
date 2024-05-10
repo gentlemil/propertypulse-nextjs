@@ -9,8 +9,7 @@ import PropertyDetails from '@/components/PropertyDetails'
 import PropertyImages from '@/components/PropertyImages'
 import BookmarkButton from '@/components/BookmarkButton'
 import PropertyContactForm from '@/components/PropertyContactForm'
-import ShareButtons from '@/components/ShareButtons'
-
+import ShareButton from '@/components/ShareButton'
 import { FaArrowLeft } from 'react-icons/fa'
 
 const PropertyPage = async ({ params }) => {
@@ -54,7 +53,7 @@ const PropertyPage = async ({ params }) => {
             <PropertyDetails property={property} />
             <aside className='space-y-4'>
               <BookmarkButton property={property} />
-              <ShareButtons property={property} PUBLIC_DOMAIN={PUBLIC_DOMAIN} />
+              <ShareButton property={property} PUBLIC_DOMAIN={PUBLIC_DOMAIN} />
               <PropertyContactForm property={property} />
             </aside>
           </div>
