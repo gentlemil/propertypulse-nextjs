@@ -1,6 +1,7 @@
 'use client'
+
+import addProperty from '@/app/actions/addPropertyAction'
 import { toast } from 'react-toastify'
-import addProperty from '@/app/actions/propertyActions'
 
 const PropertyAddForm = () => {
   const handleImageChange = (e) => {
