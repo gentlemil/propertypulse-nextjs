@@ -11,6 +11,10 @@ async function updateProperty(propertyId, formData) {
 
   const sessionUser = await getSessionUser()
 
+  if (!sessionUser || !sessionUser.userId) {
+    return { error: 'User ID is required' }
+  }
+
   const { userId } = sessionUser
 
   const existingProperty = await Property.findById(propertyId)

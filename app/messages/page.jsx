@@ -8,10 +8,16 @@ import { getSessionUser } from '@/utils/getSessionUser'
 
 import MessageCard from '@/components/Message'
 
+export const dynamic = 'force-dynamic'
+
 const MessagePage = async () => {
   await connectDB()
 
   const sessionUser = await getSessionUser()
+
+  if (!sessionUser || !sessionUser.userId) {
+    return { error: 'User ID is required' }
+  }
 
   const { userId } = sessionUser
 

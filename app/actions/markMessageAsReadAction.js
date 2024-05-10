@@ -9,6 +9,7 @@ async function markMessageAsRead(messageId) {
   await connectDB()
 
   const sessionUser = await getSessionUser()
+
   if (!sessionUser || !sessionUser.user) {
     throw new Error('User ID is required')
   }

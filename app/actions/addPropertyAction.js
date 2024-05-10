@@ -11,6 +11,7 @@ async function addProperty(formData) {
   await connectDB()
 
   const sessionUser = await getSessionUser()
+
   if (!sessionUser || !sessionUser.userId) {
     throw new Error('You must be logged in to add a property')
   }

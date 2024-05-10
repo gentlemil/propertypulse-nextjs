@@ -10,6 +10,12 @@ export const GET = async (request) => {
   try {
     await connectDB()
 
+    const sessionUser = await getSessionUser()
+
+    if (!sessionUser || !sessionUser.userId) {
+      return { error: 'User ID is required' }
+    }
+
     const { userId } = await getSessionUser()
 
     // Find the user by their session ID

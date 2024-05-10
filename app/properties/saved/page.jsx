@@ -4,10 +4,16 @@ import { getSessionUser } from '@/utils/getSessionUser'
 
 import PropertyCard from '@/components/PropertyCard'
 
+export const dynamic = 'force-dynamic'
+
 const SavedPropertiesPage = async () => {
   await connectDB()
 
   const sessionUser = await getSessionUser()
+
+  if (!sessionUser || !sessionUser.userId) {
+    return { error: 'User ID is required' }
+  }
 
   const { userId } = sessionUser
 

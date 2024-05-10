@@ -8,16 +8,18 @@ import { convertToSerializeableObject } from '@/utils/convertToObject'
 import ProfileProperties from '@/components/ProfileProperties'
 import profileDefault from '@/assets/images/profile.png'
 
+export const dynamic = 'force-dynamic'
+
 const ProfilePage = async () => {
   await connectDB()
 
   const sessionUser = await getSessionUser()
 
-  const { userId } = sessionUser
-
-  if (!userId) {
-    throw new Error('User ID is required')
+  if (!sessionUser || !sessionUser.userId) {
+    return { error: 'User ID is required' }
   }
+
+  const { userId } = sessionUser
 
   const propertiesDocs = await Property.find({ owner: userId }).lean()
   const properties = propertiesDocs.map(convertToSerializeableObject)
