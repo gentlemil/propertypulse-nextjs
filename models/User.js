@@ -21,6 +21,12 @@ const UserSchema = new Schema(
         ref: 'Property', // model, not collection
       },
     ],
+    // followedCategories: [
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Category',
+    //   },
+    // ],
   },
   {
     timestamps: true, // automatically add createdAt and updatedAt fields
