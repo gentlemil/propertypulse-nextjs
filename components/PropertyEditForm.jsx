@@ -1,7 +1,8 @@
 import updateProperty from '@/app/actions/updatePropertyAction'
 
-const PropertyEditForm = ({ property }) => {
+const PropertyEditForm = ({ property, categories }) => {
   const updatePropertyId = updateProperty.bind(null, property._id)
+  console.log(categories)
   return (
     <form action={updatePropertyId}>
       <h2 className='text-3xl text-center font-semibold mb-6'>Edit Property</h2>
@@ -17,13 +18,18 @@ const PropertyEditForm = ({ property }) => {
           required
           defaultValue={property.type}
         >
-          <option defaultValue='Apartment'>Apartment</option>
+          {categories.map((category) => (
+            <option key={category._id} defaultValue={category.name}>
+              {category.name}
+            </option>
+          ))}
+          {/* <option defaultValue='Apartment'>Apartment</option>
           <option defaultValue='Condo'>Condo</option>
           <option defaultValue='House'>House</option>
           <option defaultValue='Cabin Or Cottage'>Cabin or Cottage</option>
           <option defaultValue='Room'>Room</option>
           <option defaultValue='Studio'>Studio</option>
-          <option defaultValue='Other'>Other</option>
+          <option defaultValue='Other'>Other</option> */}
         </select>
       </div>
       <div className='mb-4'>

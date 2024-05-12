@@ -1,6 +1,7 @@
 'use server'
 
 import connectDB from '@/config/database'
+import Category from '@/models/Category'
 import Property from '@/models/Property'
 import { getSessionUser } from '@/utils/getSessionUser'
 import { revalidatePath } from 'next/cache'
@@ -24,12 +25,15 @@ async function updateProperty(propertyId, formData) {
     throw new Error('Current user does not own this property.')
   }
 
+  // find property type id by name
+  const type = await Category.findOne({ name: formData.get('type') })
+
   // Access all values from amenities and images
   const amenities = formData.getAll('amenities')
 
   // Create propertyData object for database
   const propertyData = {
-    type: formData.get('type'),
+    type: type._id,
     name: formData.get('name'),
     description: formData.get('description'),
     location: {
