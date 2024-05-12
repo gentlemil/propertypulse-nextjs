@@ -20,8 +20,9 @@ const PropertyPage = async ({ params }) => {
   await connectDB()
 
   // query the property in the DB
-  const propertyDoc = await Property.findById(params.id).lean()
-
+  const propertyDoc = await Property.findById(params.id)
+    .populate('type', 'name')
+    .lean()
   // convert the document to a plain js object so we can pass to client components
   const property = convertToSerializeableObject(propertyDoc)
 

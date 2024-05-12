@@ -3,7 +3,7 @@
 import addProperty from '@/app/actions/addPropertyAction'
 import { toast } from 'react-toastify'
 
-const PropertyAddForm = () => {
+const PropertyAddForm = ({ categories }) => {
   const handleImageChange = (e) => {
     if (e.target.files.length > 4) {
       e.target.value = ''
@@ -25,13 +25,11 @@ const PropertyAddForm = () => {
           className='border rounded w-full py-2 px-3'
           required
         >
-          <option value='Apartment'>Apartment</option>
-          <option value='Condo'>Condo</option>
-          <option value='House'>House</option>
-          <option value='Cabin Or Cottage'>Cabin or Cottage</option>
-          <option value='Room'>Room</option>
-          <option value='Studio'>Studio</option>
-          <option value='Other'>Other</option>
+          {categories.map((category) => (
+            <option key={category._id} value={category.name}>
+              {category.name}
+            </option>
+          ))}
         </select>
       </div>
       <div className='mb-4'>

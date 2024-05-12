@@ -10,7 +10,10 @@ const PropertiesPage = async ({ searchParams: { pageSize = 6, page = 1 } }) => {
   const skip = (page - 1) * pageSize
 
   const total = await Property.countDocuments({})
-  const properties = await Property.find({}).skip(skip).limit(pageSize)
+  const properties = await Property.find({})
+    .populate('type')
+    .skip(skip)
+    .limit(pageSize)
 
   return (
     <>

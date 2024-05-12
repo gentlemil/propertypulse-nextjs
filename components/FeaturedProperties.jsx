@@ -8,9 +8,9 @@ const FeaturedProperties = async () => {
 
   const properties = await Property.find({
     is_featured: true,
-  }).lean()
-  // lean() method is used to return plain JavaScript objects instead of Mongoose documents.
-  // easier to work with, improves performance.
+  })
+    .populate('type')
+    .lean()
 
   return properties.length > 0 ? (
     <section className='bg-blue-50 px-4 pt-6 pb-10'>

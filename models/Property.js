@@ -3,7 +3,7 @@ import { Schema, model, models } from 'mongoose'
 const PropertySchema = new Schema(
   {
     owner: {
-      type: Schema.Types.ObjectId,  // reference to the User model
+      type: Schema.Types.ObjectId,
       ref: 'User',
       required: true,
     },
@@ -12,7 +12,8 @@ const PropertySchema = new Schema(
       required: true,
     },
     type: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: 'Category',
       required: true,
     },
     description: {

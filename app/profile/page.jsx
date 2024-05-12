@@ -21,7 +21,9 @@ const ProfilePage = async () => {
 
   const { userId } = sessionUser
 
-  const propertiesDocs = await Property.find({ owner: userId }).lean()
+  const propertiesDocs = await Property.find({ owner: userId })
+    .populate('type', 'name')
+    .lean()
   const properties = propertiesDocs.map(convertToSerializeableObject)
 
   return (

@@ -9,6 +9,7 @@ const HomeProperties = async () => {
   await connectDB()
 
   const recentProperties = await Property.find({})
+    .populate('type')
     .sort({ createdAt: -1 })
     .limit(3)
     .lean()

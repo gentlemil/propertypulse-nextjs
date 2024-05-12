@@ -43,7 +43,6 @@ const MessagePage = async () => {
     message.property = convertToSerializeableObject(messageDoc.property)
     return message
   })
-  console.log(messages)
 
   return (
     <section className='bg-blue-50'>

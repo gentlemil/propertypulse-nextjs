@@ -20,6 +20,13 @@ async function addPropertyCategory(formData) {
     name: formData.get('name'),
   }
 
+  // check if category already exists
+  const existingCategory = await Category.findOne({ name: categoryData.name })
+
+  if (existingCategory) {
+    throw new Error('Category already exists')
+  }
+
   const newPropertyCategory = new Category(categoryData)
   await newPropertyCategory.save()
 

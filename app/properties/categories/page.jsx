@@ -11,7 +11,7 @@ const PropertyCategoriesPage = async () => {
 
   await connectDB()
 
-  const categories = await Category.find({})
+  const categories = await Category.find({}).sort({ name: 1 }).lean()
 
   return (
     <section className='px-4 py-2'>

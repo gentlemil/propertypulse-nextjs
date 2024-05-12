@@ -6,6 +6,7 @@ import { getSessionUser } from '@/utils/getSessionUser'
 import cloudinary from '@/config/cloudinary'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import Category from '@/models/Category'
 
 async function addProperty(formData) {
   await connectDB()
@@ -18,12 +19,15 @@ async function addProperty(formData) {
 
   const { userId } = sessionUser
 
+  // find property type id by name
+  const type = await Category.findOne({ name: formData.get('type') })
+
   const amenities = formData.getAll('amenities')
   const images = formData.getAll('images').filter((image) => image.name !== '')
 
   // create propertyData object for database
   const propertyData = {
-    type: formData.get('type'),
+    type: type._id,
     name: formData.get('name'),
     description: formData.get('description'),
     location: {
