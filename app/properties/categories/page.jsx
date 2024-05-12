@@ -4,10 +4,10 @@ import connectDB from '@/config/database'
 import Category from '@/models/Category'
 
 import { getServerSession } from 'next-auth'
-import { authOption } from '@/utils/authOptions'
+import { authOptions } from '@/utils/authOptions'
 
 const PropertyCategoriesPage = async () => {
-  const data = await getServerSession(authOption)
+  const data = await getServerSession(authOptions)
 
   await connectDB()
 
