@@ -1,54 +1,34 @@
-'use client'
-import { useState, useEffect } from 'react'
-import Spinner from '@/components/Spinner'
-import { toast } from 'react-toastify'
+import connectDB from '@/config/database'
+import User from '@/models/User'
+import { getSessionUser } from '@/utils/getSessionUser'
+
 import PropertyCard from '@/components/PropertyCard'
 
-const SavedPropertiesPage = () => {
-  const [properties, setProperties] = useState([])
-  const [loading, setLoading] = useState(true)
+export const dynamic = 'force-dynamic'
 
-  useEffect(() => {
-    const fetchSavedProperties = async () => {
-      try {
-        const res = await fetch(`/api/bookmarks`)
+const SavedPropertiesPage = async () => {
+  await connectDB()
 
-        if (res.status === 200) {
-          const data = await res.json()
-          setProperties(data)
-          // sort the properties by create date
-          if (properties) {
-            properties.sort(
-              (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-            )
-          }
-        } else {
-          console.error(`Failed to fetch saved properties: ${res.statusText}`)
-          toast.error('Failed to fetch saved properties')
-        }
-      } catch (error) {
-        console.error(
-          `An error occurred while fetching saved properties: ${error}`
-        )
-        toast.error('An error occurred while fetching saved properties')
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchSavedProperties()
-  }, [])
-  return loading ? (
-    <Spinner loading={loading} />
-  ) : (
+  const sessionUser = await getSessionUser()
+
+  if (!sessionUser || !sessionUser.userId) {
+    return { error: 'User ID is required' }
+  }
+
+  const { userId } = sessionUser
+
+  const { bookmarks } = await User.findById(userId).populate('bookmarks').lean()
+
+  return (
     <section className='px-4 py-6'>
       <div className='container-xl lg:container m-auto px-4 py-6'>
         <h1 className='text-2xl mb-4'>Saved Properties</h1>
-        {properties.length === 0 ? (
-          <p>No properties found</p>
+        {bookmarks.length === 0 ? (
+          <p>No saved properties</p>
         ) : (
           <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
-            {properties.map((property, index) => (
-              <PropertyCard property={property} key={index} />
+            {bookmarks.map((property) => (
+              <PropertyCard key={property._id} property={property} />
             ))}
           </div>
         )}
@@ -56,5 +36,4 @@ const SavedPropertiesPage = () => {
     </section>
   )
 }
-
 export default SavedPropertiesPage

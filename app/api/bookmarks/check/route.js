@@ -1,34 +1,36 @@
-import connectDB from '@/config/database'
-import User from '@/models/User'
-import { getSessionUser } from '@/utils/getSessionUser'
+// TO_REMOVE (not used anymore in the project, but keeping it for reference)
 
-export const dynamic = 'force-dynamic'
+// import connectDB from '@/config/database'
+// import User from '@/models/User'
+// import { getSessionUser } from '@/utils/getSessionUser'
 
-export const POST = async (request) => {
-  try {
-    await connectDB()
+// export const dynamic = 'force-dynamic'
 
-    const { propertyId } = await request.json()
+// export const POST = async (request) => {
+//   try {
+//     await connectDB()
 
-    const sessionUser = await getSessionUser()
+//     const { propertyId } = await request.json()
 
-    if (!sessionUser || !sessionUser.userId) {
-      return new Response('User ID is required', { status: 401 })
-    }
+//     const sessionUser = await getSessionUser()
 
-    const { userId } = sessionUser
+//     if (!sessionUser || !sessionUser.userId) {
+//       return new Response('User ID is required', { status: 401 })
+//     }
 
-    // find the user by their session ID
-    const user = await User.findOne({ _id: userId })
+//     const { userId } = sessionUser
 
-    // check if the property is already bookmarked
-    let isBookmarked = user.bookmarks.includes(propertyId)
+//     // find the user by their session ID
+//     const user = await User.findOne({ _id: userId })
 
-    return new Response(JSON.stringify({ isBookmarked }), {
-      status: 200,
-    })
-  } catch (error) {
-    console.log(error)
-    return new Response('Something went wrong', { status: 500 })
-  }
-}
+//     // check if the property is already bookmarked
+//     let isBookmarked = user.bookmarks.includes(propertyId)
+
+//     return new Response(JSON.stringify({ isBookmarked }), {
+//       status: 200,
+//     })
+//   } catch (error) {
+//     console.log(error)
+//     return new Response('Something went wrong', { status: 500 })
+//   }
+// }

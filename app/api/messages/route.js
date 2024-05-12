@@ -1,94 +1,96 @@
-import connectDB from '@/config/database'
-import Message from '@/models/Message'
-import { getSessionUser } from '@/utils/getSessionUser'
+// TO_REMOVE (not used anymore in the project, but keeping it for reference)
 
-export const dynamic = 'force-dynamic'
+// import connectDB from '@/config/database'
+// import Message from '@/models/Message'
+// import { getSessionUser } from '@/utils/getSessionUser'
 
-// GET /api/messages
-export const GET = async (request) => {
-  try {
-    // connect to db
-    await connectDB()
+// export const dynamic = 'force-dynamic'
 
-    // get session user
-    const sessionUser = await getSessionUser()
+// // GET /api/messages
+// export const GET = async (request) => {
+//   try {
+//     // connect to db
+//     await connectDB()
 
-    if (!sessionUser || !sessionUser.user) {
-      return new Response(JSON.stringify('User ID is required'), {
-        status: 401,
-      })
-    }
+//     // get session user
+//     const sessionUser = await getSessionUser()
 
-    const { userId } = sessionUser
+//     if (!sessionUser || !sessionUser.user) {
+//       return new Response(JSON.stringify('User ID is required'), {
+//         status: 401,
+//       })
+//     }
 
-    // get messages for user
+//     const { userId } = sessionUser
 
-    const unreadMessages = await Message.find({
-      recipient: userId,
-      read: false,
-    })
-      .sort({ createdAt: -1 })
-      .populate('sender', 'username')
-      .populate('property', 'name')
+//     // get messages for user
 
-    const readMessages = await Message.find({ recipient: userId, read: true })
-      .sort({ createdAt: -1 })
-      .populate('sender', 'username')
-      .populate('property', 'name')
+//     const unreadMessages = await Message.find({
+//       recipient: userId,
+//       read: false,
+//     })
+//       .sort({ createdAt: -1 })
+//       .populate('sender', 'username')
+//       .populate('property', 'name')
 
-    const messages = [...unreadMessages, ...readMessages]
+//     const readMessages = await Message.find({ recipient: userId, read: true })
+//       .sort({ createdAt: -1 })
+//       .populate('sender', 'username')
+//       .populate('property', 'name')
 
-    return new Response(JSON.stringify(messages), { status: 200 })
-  } catch (error) {
-    return new Response('Something went wrong', { status: 500 })
-  }
-}
+//     const messages = [...unreadMessages, ...readMessages]
 
-// POST /api/messages
-export const POST = async (request) => {
-  try {
-    // connect to db
-    await connectDB()
+//     return new Response(JSON.stringify(messages), { status: 200 })
+//   } catch (error) {
+//     return new Response('Something went wrong', { status: 500 })
+//   }
+// }
 
-    // get name, email, phone, message, property, recipient from request
-    const { name, email, phone, message, property, recipient } =
-      await request.json()
+// // POST /api/messages
+// export const POST = async (request) => {
+//   try {
+//     // connect to db
+//     await connectDB()
 
-    // get session user
-    const sessionUser = await getSessionUser()
+//     // get name, email, phone, message, property, recipient from request
+//     const { name, email, phone, message, property, recipient } =
+//       await request.json()
 
-    if (!sessionUser || !sessionUser.user) {
-      return new Response('User ID is required', { status: 401 })
-    }
+//     // get session user
+//     const sessionUser = await getSessionUser()
 
-    const { user } = sessionUser
+//     if (!sessionUser || !sessionUser.user) {
+//       return new Response('User ID is required', { status: 401 })
+//     }
 
-    // check if user is sending message to self
-    if (user.id === recipient) {
-      return new Response(
-        JSON.stringify({ message: 'Can not send message to yourself' }),
-        { status: 400 }
-      )
-    }
+//     const { user } = sessionUser
 
-    // create a new message
-    const newMessage = new Message({
-      sender: user.id,
-      recipient,
-      property,
-      name,
-      email,
-      phone,
-      body: message,
-    })
+//     // check if user is sending message to self
+//     if (user.id === recipient) {
+//       return new Response(
+//         JSON.stringify({ message: 'Can not send message to yourself' }),
+//         { status: 400 }
+//       )
+//     }
 
-    // save message to db
-    await newMessage.save()
+//     // create a new message
+//     const newMessage = new Message({
+//       sender: user.id,
+//       recipient,
+//       property,
+//       name,
+//       email,
+//       phone,
+//       body: message,
+//     })
 
-    return new Response(JSON.stringify({ message: 'Message Sent' }), {
-      status: 200,
-    })
-  } catch (error) {
-    return new Response('Something went wrong', { status: 500 })
-  }
-}
+//     // save message to db
+//     await newMessage.save()
+
+//     return new Response(JSON.stringify({ message: 'Message Sent' }), {
+//       status: 200,
+//     })
+//   } catch (error) {
+//     return new Response('Something went wrong', { status: 500 })
+//   }
+// }

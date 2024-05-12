@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { useGlobalContext } from '@/context/GlobalContext'
 import { toast } from 'react-toastify'
+import markMessageAsRead from '@/app/actions/markMessageAsReadAction'
 
 const Message = ({ message }) => {
   const [isRead, setIsRead] = useState(message.read)
@@ -10,43 +11,50 @@ const Message = ({ message }) => {
   const { setUnreadCount } = useGlobalContext()
 
   const handleReadClick = async () => {
-    try {
-      const res = await fetch(`/api/messages/${message._id}`, {
-        method: 'PUT',
-      })
-      if (res.status === 200) {
-        const { read } = await res.json()
-        setIsRead(read)
-        read
-          ? setUnreadCount((prev) => prev - 1)
-          : setUnreadCount((prev) => prev + 1)
-        read ? toast.success('Marked as read') : toast.success('Marker as new')
-      }
-    } catch (error) {
-      console.error(error)
-      toast.error('Something went wrong')
-    }
+    const read = await markMessageAsRead(message._id)
+
+    setIsRead(read)
+    setUnreadCount((prevCount) => (read ? prevCount - 1 : prevCount + 1))
+    toast.success(`Marked as ${read ? 'read' : 'new'}`)
   }
+  // const handleReadClick = async () => {
+  //   try {
+  //     const res = await fetch(`/api/messages/${message._id}`, {
+  //       method: 'PUT',
+  //     })
+  //     if (res.status === 200) {
+  //       const { read } = await res.json()
+  //       setIsRead(read)
+  //       read
+  //         ? setUnreadCount((prev) => prev - 1)
+  //         : setUnreadCount((prev) => prev + 1)
+  //       read ? toast.success('Marked as read') : toast.success('Marker as new')
+  //     }
+  //   } catch (error) {
+  //     console.error(error)
+  //     toast.error('Something went wrong')
+  //   }
+  // }
 
-  const handleDeleteClick = async () => {
-    try {
-      const res = await fetch(`/api/messages/${message._id}`, {
-        method: 'DELETE',
-      })
-      if (res.status === 200) {
-        setIsDeleted(true)
+  // const handleDeleteClick = async () => {
+  //   try {
+  //     const res = await fetch(`/api/messages/${message._id}`, {
+  //       method: 'DELETE',
+  //     })
+  //     if (res.status === 200) {
+  //       setIsDeleted(true)
 
-        if (!message.read) {
-          setUnreadCount((prev) => prev - 1)
-        }
+  //       if (!message.read) {
+  //         setUnreadCount((prev) => prev - 1)
+  //       }
 
-        toast.success('Message deleted')
-      }
-    } catch (error) {
-      console.error(error)
-      toast.error('Message not deleted')
-    }
-  }
+  //       toast.success('Message deleted')
+  //     }
+  //   } catch (error) {
+  //     console.error(error)
+  //     toast.error('Message not deleted')
+  //   }
+  // }
 
   if (isDeleted) return null
 
@@ -96,12 +104,20 @@ const Message = ({ message }) => {
       >
         {isRead ? 'Mark As New' : 'Mark As Read'}
       </button>
+      {/* <button
+        onClick={handleReadClick}
+        className={`mt-4 mr-3 ${
+          isRead ? 'bg-gray-300' : 'bg-blue-500 text-white'
+        } py-1 px-3 rounded-md`}
+      >
+        {isRead ? 'Mark As New' : 'Mark As Read'}
+      </button>
       <button
         onClick={handleDeleteClick}
         className='mt-4 bg-red-500 text-white py-1 px-3 rounded-md'
       >
         Delete
-      </button>
+      </button> */}
     </div>
   )
 }

@@ -1,12 +1,28 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 const PropertySearchForm = () => {
   const [location, setLocation] = useState('')
   const [propertyType, setPropertyType] = useState('All')
+  const [categories, setCategories] = useState([])
 
   const router = useRouter()
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch('/api/properties/categories')
+        const data = await res.json()
+
+        setCategories(data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchCategories()
+  }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -49,14 +65,19 @@ const PropertySearchForm = () => {
           onChange={(e) => setPropertyType(e.target.value)}
         >
           <option value='All'>All</option>
-          <option value='Apartment'>Apartment</option>
+          {categories.map((category) => (
+            <option key={category._id} value={category.name}>
+              {category.name}
+            </option>
+          ))}
+          {/* <option value='Apartment'>Apartment</option>
           <option value='Studio'>Studio</option>
           <option value='Condo'>Condo</option>
           <option value='House'>House</option>
           <option value='Cabin Or Cottage'>Cabin or Cottage</option>
           <option value='Loft'>Loft</option>
           <option value='Room'>Room</option>
-          <option value='Other'>Other</option>
+          <option value='Other'>Other</option> */}
         </select>
       </div>
       <button
