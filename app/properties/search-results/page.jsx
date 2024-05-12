@@ -13,7 +13,6 @@ const SearchResultsPage = async ({
   searchParams: { location, propertyType },
 }) => {
   await connectDB()
-
   const locationPattern = new RegExp(location, 'i')
 
   let query = {
@@ -27,14 +26,27 @@ const SearchResultsPage = async ({
     ],
   }
 
-  // check for property if its not 'All'
+  let propertiesQueryResults = []
   if (propertyType && propertyType !== 'All') {
-    const typePattern = new RegExp(propertyType, 'i')
-    query.type = typePattern
+    propertiesQueryResults = await Property.find(query)
+      .populate({
+        path: 'type',
+        match: { name: propertyType },
+        select: 'name -_id',
+      })
+      .lean()
+  } else {
+    propertiesQueryResults = await Property.find(query)
+      .populate({
+        path: 'type',
+        select: 'name -_id',
+      })
+      .lean()
   }
 
-  const propertiesQueryResults = await Property.find(query).lean()
-  const properties = convertToSerializeableObject(propertiesQueryResults)
+  const properties = convertToSerializeableObject(
+    propertiesQueryResults.filter((property) => property.type !== null)
+  )
 
   return (
     <>
@@ -51,7 +63,9 @@ const SearchResultsPage = async ({
           >
             <FaArrowAltCircleLeft className='mr-2 mb-1' /> Back To Properties
           </Link>
+
           <h1 className='text-2xl mb-4'>Search Results</h1>
+
           {properties.length === 0 ? (
             <p>No search results found</p>
           ) : (
