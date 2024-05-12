@@ -2,11 +2,16 @@ import Link from 'next/link'
 
 import connectDB from '@/config/database'
 import Property from '@/models/Property'
+import Category from '@/models/Category'
 
 import PropertyCard from '@/components/PropertyCard'
 
 const HomeProperties = async () => {
   await connectDB()
+
+  if (!Category) {
+    return null
+  }
 
   const recentProperties = await Property.find({})
     .populate('type')

@@ -1,10 +1,15 @@
 import connectDB from '@/config/database'
 import Property from '@/models/Property'
+import Category from '@/models/Category'
 
 import FeaturedPropertyCard from '@/components/FeaturedPropertyCard'
 
 const FeaturedProperties = async () => {
   await connectDB()
+
+  if (!Category) {
+    return null
+  }
 
   const properties = await Property.find({
     is_featured: true,
