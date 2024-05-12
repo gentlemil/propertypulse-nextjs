@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Category from './Category'
 
 const Categories = ({ categories }) => {
   return (
@@ -9,18 +9,7 @@ const Categories = ({ categories }) => {
         ) : (
           <ul className='w-full flex flex-wrap justify-center items-center gap-2'>
             {categories.map((category) => (
-              <li
-                key={category._id}
-                className='px-4 py-2 border-2 border-blue-500 hover:border-blue-600 rounded-full group w-fit'
-              >
-                <Link
-                  href={`/properties/search-results?location=&propertyType=${category.name}`}
-                >
-                  <p className='text-blue-500 hover:text-blue-600'>
-                    {category.name}
-                  </p>
-                </Link>
-              </li>
+              <Category key={category._id} category={category} />
             ))}
           </ul>
         )}
