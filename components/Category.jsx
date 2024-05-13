@@ -28,7 +28,7 @@ const Category = ({ category }) => {
       toast.error('You need to sign in to follow a category')
       return
     }
-    console.log('category._id', category._id)
+
     followCategory(category._id).then((res) => {
       if (res.error) return toast.error(res.error)
       setIsFollowed(res.isFollowed)
