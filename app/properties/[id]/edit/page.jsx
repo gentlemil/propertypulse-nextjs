@@ -13,7 +13,6 @@ const PropertyEditPage = async ({ params }) => {
 
   // get categories from the DB
   const categories = await Category.find({}).lean()
-  console.log(categories)
   // const categories = []
 
   // convert the document to a plain js object so we can pass to client components

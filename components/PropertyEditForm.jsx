@@ -2,7 +2,7 @@ import updateProperty from '@/app/actions/updatePropertyAction'
 
 const PropertyEditForm = ({ property, categories }) => {
   const updatePropertyId = updateProperty.bind(null, property._id)
-  console.log(categories)
+
   return (
     <form action={updatePropertyId}>
       <h2 className='text-3xl text-center font-semibold mb-6'>Edit Property</h2>

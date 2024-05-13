@@ -1,7 +1,8 @@
-import FeaturedProperties from '@/components/FeaturedProperties'
 import Hero from '@/components/Hero'
-import HomeProperties from '@/components/HomeProperties'
 import InfoBoxes from '@/components/InfoBoxes'
+import FeaturedProperties from '@/components/FeaturedProperties'
+import HomeProperties from '@/components/HomeProperties'
+import BecauseYouFollow from '@/components/BecauseYouFollow'
 
 const HomePage = async () => {
   return (
@@ -10,6 +11,7 @@ const HomePage = async () => {
       <InfoBoxes />
       <FeaturedProperties />
       <HomeProperties />
+      <BecauseYouFollow />
     </>
   )
 }

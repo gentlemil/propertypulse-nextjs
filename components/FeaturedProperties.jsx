@@ -12,7 +12,7 @@ const FeaturedProperties = async () => {
   }
 
   const properties = await Property.find({
-    is_featured: true,
+    isFeatured: true,
   })
     .populate('type')
     .lean()
