@@ -30,7 +30,10 @@ const Navbar = () => {
 
   const pathname = usePathname()
   return (
-    <nav className='bg-blue-700 border-b border-blue-500'>
+    <nav
+      data-id='desktop-menu'
+      className='bg-blue-700 border-b border-blue-500'
+    >
       <div className='mx-auto max-w-7xl px-2 sm:px-6 lg:px-8'>
         <div className='relative flex h-20 items-center justify-between'>
           <div className='absolute inset-y-0 left-0 flex items-center md:hidden'>
@@ -75,6 +78,7 @@ const Navbar = () => {
             <div className='hidden md:ml-6 md:block'>
               <div className='flex space-x-2'>
                 <Link
+                  data-id='desktop-menu-item-home'
                   href='/'
                   className={`${
                     pathname === '/' ? 'bg-black' : ''
@@ -83,6 +87,7 @@ const Navbar = () => {
                   Home
                 </Link>
                 <Link
+                  data-id='desktop-menu-item-properties'
                   href='/properties'
                   className={`${
                     pathname === '/properties' ? 'bg-black' : ''
@@ -91,6 +96,7 @@ const Navbar = () => {
                   Properties
                 </Link>
                 <Link
+                  data-id='desktop-menu-item-categories'
                   href='/properties/categories'
                   className={`${
                     pathname === '/properties/categories' ? 'bg-black' : ''
@@ -100,6 +106,7 @@ const Navbar = () => {
                 </Link>
                 {session && (
                   <Link
+                    data-id='desktop-menu-item-add-property'
                     href='/properties/add'
                     className={`${
                       pathname === '/properties/add' ? 'bg-black' : ''
@@ -119,6 +126,7 @@ const Navbar = () => {
                 {providers &&
                   Object.values(providers).map((provider, index) => (
                     <button
+                      data-id='desktop-menu-item-auth'
                       onClick={() => signIn(provider.id)}
                       key={index}
                       className='flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2'
